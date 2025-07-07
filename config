@@ -45,8 +45,7 @@ exec_always picom --no-fading-openclose
 
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
-
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork --image=/home/pratham/Pictures/solo_levelling_blurred.png
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
@@ -58,11 +57,14 @@ bindsym XF86AudioLowerVolume exec --no-startup-id wpctl set-volume @DEFAULT_AUDI
 bindsym XF86AudioMute exec --no-startup-id wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && $refresh_i3status
 bindsym XF86AudioMicMute exec --no-startup-id wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle 
 
+#enabling rotate key
+bindsym XF86Launch2 exec --no-startup-id rotateDisplay
+
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+t exec terminator
+bindsym $mod+t exec kitty
 
 # start brave-browser
 bindsym $mod+b exec brave-browser-stable
@@ -158,8 +160,11 @@ workspace $ws10 output $sm
 bindsym $mod+Shift+s exec --no-startup-id /bin/change-monitor
 
 # Change display brightness
-bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +5%
-bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%-
+bindsym Ctrl+XF86MonBrightnessUp exec --no-startup-id brightnessctl set +5%
+bindsym Ctrl+XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%-
+
+# Open Gnome-calculator
+bindsym XF86Calculator exec gnome-calculator
 
 # switch to workspace
 bindsym $mod+1 workspace number $ws1
@@ -195,21 +200,22 @@ bindsym $mod+Shift+r restart
 # bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
 # Create custom Log out, Reboot, Poweroff bindings
-mode "(S)uspend, (L)ogout, (R)eboot, (P)oweroff" {
+mode "(S)uspend, (L)ogout, (R)eboot, (P)oweroff, (X)creenLock" {
         bindsym r exec --no-startup-id systemctl reboot
         bindsym s exec --no-startup-id systemctl suspend; mode "default"
         bindsym l exec --no-startup-id "i3-msg exit"
         bindsym p exec --no-startup-id systemctl poweroff
+        bindsym x exec --no-startup-id i3lock --image=/home/pratham/Pictures/solo_levelling_blurred.png -f -p default ; mode "default"
 
         # back to normal: Enter or Escape
         bindsym Return mode "default"
         bindsym Escape mode "default"
 }
 
-bindsym $mod+Shift+e mode "(S)uspend, (L)ogout, (R)eboot, (P)oweroff"
+bindsym $mod+Shift+e mode "(S)uspend, (L)ogout, (R)eboot, (P)oweroff, (X)creenLock"
 
 # resize window (you can also use the mouse for that)
-mode "resize" {
+mode "RESIZE" {
         # These bindings trigger as soon as you enter the resize mode
 
         # Pressing left will shrink the window’s width.
@@ -232,7 +238,7 @@ mode "resize" {
         bindsym $mod+r mode "default"
 }
 
-bindsym $mod+r mode "resize"
+bindsym $mod+r mode "RESIZE"
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
