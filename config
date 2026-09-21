@@ -18,18 +18,18 @@ set $sm HDMI-A-0
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:monospace 10
+font pango:monospace 15
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
 #font pango:DejaVu Sans Mono 8
-exec --no-startup-id i3-battery-popup -n -D -L 20 -l 10 -s ~/Downloads/i3-battery-popup/i3-battery-popup.wav
+exec --no-startup-id i3-battery-popup -n -D -L 24 -l 12 -s ~/Downloads/i3-battery-popup/low_battery_sound1.mp3
 # Start XDG autostart .desktop files using dex. See also
 # https://wiki.archlinux.org/index.php/XDG_Autostart
 exec --no-startup-id dex --autostart --environment i3
 exec --no-startup-id /usr/libexec/gsd-xsettings
 
-exec --no-startup-id feh --bg-scale ~/Pictures/solo_levelling.jpg
+exec --no-startup-id feh --bg-scale ~/Pictures/yami.jpg
 
 # take a screenshot of a screen region and copy it to a clipboard
 bindsym --release Shift+Print exec "scregcp -s /home/pratham/Pictures/Screenshots/"
@@ -37,15 +37,24 @@ bindsym --release Shift+Print exec "scregcp -s /home/pratham/Pictures/Screenshot
 # take a screenshot of a whole window and copy it to a clipboard
 bindsym --release Print exec "scregcp /home/pratham/Pictures/Screenshots/"
 
+# open filemanager
+bindsym $mod+n exec "dolphin"
+
 #enable transparent background
 exec_always picom --no-fading-openclose
+
+# Start recording voice to text
+bindsym $mod+g exec --no-startup-id notify-send -t 2000 "Dictation started" && nerd-dictation begin
+
+# Stop recording and automatically type out the text into the active window
+bindsym $mod+Shift+g exec --no-startup-id nerd-dictation end && notify-send -t 2000 "Dictation ended"
 
 # The combination of xss-lock, nm-applet and pactl is a popular choice, so
 # they are included here as an example. Modify as you see fit.
 
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork --image=/home/pratham/Pictures/solo_levelling_blurred.png
+# exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork --image=/home/pratham/Pictures/solo_levelling_blurred.png
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
@@ -66,8 +75,8 @@ floating_modifier $mod
 # start a terminal
 bindsym $mod+t exec kitty
 
-# start brave-browser
-bindsym $mod+b exec brave-browser-stable
+# start camera app
+bindsym $mod+c exec snapshot
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -131,6 +140,10 @@ bindsym $mod+a focus parent
 # focus the child container
 # bindsym $mod+d focus child
 
+bindsym $mod+b exec brave-browser-stable --force-device-scale-factor=1.25 ; mode "default"
+bindsym $mod+x exec google-chrome --force-device-scale-factor=1.25 ; mode "default"
+
+
 # Define names for default workspaces for which we configure key bindings later on.
 
 # We use variables to avoid repeating the names in multiple places.
@@ -162,6 +175,8 @@ bindsym $mod+Shift+s exec --no-startup-id /bin/change-monitor
 # Change display brightness
 bindsym Ctrl+XF86MonBrightnessUp exec --no-startup-id brightnessctl set +5%
 bindsym Ctrl+XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%-
+bindsym Ctrl+F10 exec --no-startup-id brightnessctl set +5%
+bindsym Ctrl+F9 exec --no-startup-id brightnessctl set 5%-
 
 # Open Gnome-calculator
 bindsym XF86Calculator exec gnome-calculator
@@ -205,7 +220,7 @@ mode "(S)uspend, (L)ogout, (R)eboot, (P)oweroff, (X)creenLock" {
         bindsym s exec --no-startup-id systemctl suspend; mode "default"
         bindsym l exec --no-startup-id "i3-msg exit"
         bindsym p exec --no-startup-id systemctl poweroff
-        bindsym x exec --no-startup-id i3lock --image=/home/pratham/Pictures/solo_levelling_blurred.png -f -p default ; mode "default"
+        bindsym x exec --no-startup-id i3lock --image=/home/pratham/Pictures/yami_blurred.png -f -p default ; mode "default"
 
         # back to normal: Enter or Escape
         bindsym Return mode "default"
@@ -240,10 +255,13 @@ mode "RESIZE" {
 
 bindsym $mod+r mode "RESIZE"
 
+#changing i3 title bar colors
+client.focused #6f4c99 #441191 #ffffff #2e9ef4 #441191
+
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-        font pango:Sans Mono 13
+        font pango:Sans Mono 14
         status_command i3status -c ~/.config/i3/i3status.conf
         position bottom
         tray_output primary
