@@ -29,7 +29,7 @@ exec --no-startup-id i3-battery-popup -n -D -L 24 -l 12 -s ~/Downloads/i3-batter
 exec --no-startup-id dex --autostart --environment i3
 exec --no-startup-id /usr/libexec/gsd-xsettings
 
-exec --no-startup-id feh --bg-scale ~/Pictures/yami.jpg
+exec --no-startup-id feh --randomize --bg-scale ~/Pictures/Wallpapers/*
 
 # take a screenshot of a screen region and copy it to a clipboard
 bindsym --release Shift+Print exec "scregcp -s /home/pratham/Pictures/Screenshots/"
@@ -261,9 +261,10 @@ client.focused #6f4c99 #441191 #ffffff #2e9ef4 #441191
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-        font pango:Sans Mono 14
+        font pango:Lohit Telugu 16
         status_command i3status -c ~/.config/i3/i3status.conf
         position bottom
         tray_output primary
-        separator_symbol " :|: "
+        separator_symbol "  ◼  "
+        height 45
 }
